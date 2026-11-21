@@ -1,0 +1,10 @@
+build/
+*.apk
+*.idsig
+BACKLOG.*
+BACKLOG-ARCHIVE.md
+AI-HANDOFF.md
+PROGRESS-*.md
+desktop.ini
+.secrets/
+local.env

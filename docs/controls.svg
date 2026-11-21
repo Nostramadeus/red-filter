@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 560" width="1280" height="560" role="img" aria-label="The notification and the small slider window">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0202"/>
+      <stop offset="1" stop-color="#1d0503"/>
+    </linearGradient>
+    <linearGradient id="track" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff5a2c"/>
+      <stop offset="1" stop-color="#b01800"/>
+    </linearGradient>
+    <linearGradient id="hue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff0000"/>
+      <stop offset="1" stop-color="#ffa000"/>
+    </linearGradient>
+    <mask id="cut3">
+      <rect x="0" y="0" width="1280" height="560" fill="#fff"/>
+      <circle cx="131" cy="171" r="15" fill="#000"/>
+    </mask>
+  </defs>
+
+  <rect width="1280" height="560" rx="28" fill="url(#bg3)"/>
+
+  <g font-family="Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif">
+    <text x="80" y="76" font-size="26" font-weight="700" fill="#e0a898">1. A notification that stays</text>
+    <text x="700" y="76" font-size="26" font-weight="700" fill="#e0a898">2. A small window, not a full screen</text>
+
+    <!-- notification card -->
+    <rect x="80" y="110" width="520" height="190" rx="26" fill="#241310" stroke="#4a2018" stroke-width="2"/>
+    <circle cx="124" cy="176" r="18" fill="#ff3b14" mask="url(#cut3)"/>
+    <text x="160" y="170" font-size="24" font-weight="700" fill="#ffe9e1">Red Filter is on</text>
+    <text x="160" y="202" font-size="19" fill="#c79a8d">Darkness 55%, colour 24%. Tap to adjust.</text>
+    <text x="160" y="266" font-size="21" font-weight="700" fill="#ff7a55">Turn off</text>
+    <text x="290" y="266" font-size="21" font-weight="700" fill="#ff7a55">Adjust</text>
+
+    <!-- hint under the card -->
+    <text x="80" y="356" font-size="20" fill="#d3a497">Tap it, or "Adjust": the window on the right opens</text>
+    <text x="80" y="384" font-size="20" fill="#d3a497">over the app you are in. Tap outside to close it.</text>
+    <text x="80" y="440" font-size="20" fill="#d3a497">Also there: a quick-settings tile for on / off.</text>
+
+    <!-- popup panel -->
+    <rect x="700" y="110" width="500" height="410" rx="28" fill="#241310" stroke="#4a2018" stroke-width="2"/>
+    <text x="732" y="152" font-size="17" fill="#c79a8d">Running.</text>
+    <text x="732" y="196" font-size="24" font-weight="600" fill="#ffe9e1">Filter on</text>
+    <rect x="1096" y="172" width="72" height="34" rx="17" fill="#ff3b14"/>
+    <circle cx="1151" cy="189" r="13" fill="#fff3ee"/>
+
+    <text x="732" y="250" font-size="21" fill="#ffe9e1">Darkness: 55%</text>
+    <rect x="732" y="270" width="436" height="8" rx="4" fill="#4a2018"/>
+    <rect x="732" y="270" width="262" height="8" rx="4" fill="url(#track)"/>
+    <circle cx="994" cy="274" r="13" fill="#ff5a2c"/>
+
+    <text x="732" y="330" font-size="21" fill="#ffe9e1">Colour strength: 24%</text>
+    <rect x="732" y="350" width="436" height="8" rx="4" fill="#4a2018"/>
+    <rect x="732" y="350" width="131" height="8" rx="4" fill="url(#track)"/>
+    <circle cx="863" cy="354" r="13" fill="#ff5a2c"/>
+
+    <text x="732" y="410" font-size="21" fill="#ffe9e1">Colour: deep red (39)</text>
+    <rect x="732" y="430" width="436" height="8" rx="4" fill="url(#hue)"/>
+    <circle cx="838" cy="434" r="13" fill="#ff3d00" stroke="#fff3ee" stroke-width="2"/>
+
+    <rect x="732" y="464" width="436" height="38" rx="12" fill="#3a1a14"/>
+    <text x="950" y="490" font-size="18" font-weight="600" text-anchor="middle" fill="#ffd2c4">BACK TO THE DEFAULT LOOK</text>
+  </g>
+</svg>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app">Red Filter</string>
+    <string name="a11y_desc">Draws a red, dark colour layer over the whole screen. It reads nothing on the screen and sends nothing anywhere.</string>
+</resources>

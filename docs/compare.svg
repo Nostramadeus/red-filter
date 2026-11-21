@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 600" width="1280" height="600" role="img" aria-label="The same page without and with Red Filter">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0202"/>
+      <stop offset="1" stop-color="#190403"/>
+    </linearGradient>
+    <radialGradient id="glare" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff3df" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#fff3df" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ember" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ff3b14" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#ff3b14" stop-opacity="0"/>
+    </radialGradient>
+    <!-- the lines of one page, used twice -->
+    <g id="lines">
+      <rect x="0" y="0" width="150" height="12" rx="3"/>
+      <rect x="0" y="44" width="232" height="8" rx="3"/>
+      <rect x="0" y="66" width="232" height="8" rx="3"/>
+      <rect x="0" y="88" width="204" height="8" rx="3"/>
+      <rect x="0" y="110" width="232" height="8" rx="3"/>
+      <rect x="0" y="132" width="168" height="8" rx="3"/>
+      <rect x="0" y="176" width="232" height="8" rx="3"/>
+      <rect x="0" y="198" width="220" height="8" rx="3"/>
+      <rect x="0" y="220" width="232" height="8" rx="3"/>
+      <rect x="0" y="242" width="188" height="8" rx="3"/>
+      <rect x="0" y="264" width="232" height="8" rx="3"/>
+      <rect x="0" y="286" width="120" height="8" rx="3"/>
+      <rect x="0" y="330" width="232" height="8" rx="3"/>
+      <rect x="0" y="352" width="210" height="8" rx="3"/>
+      <rect x="0" y="374" width="232" height="8" rx="3"/>
+      <rect x="0" y="396" width="150" height="8" rx="3"/>
+    </g>
+  </defs>
+
+  <rect width="1280" height="600" rx="28" fill="url(#bg2)"/>
+  <circle cx="330" cy="318" r="300" fill="url(#glare)"/>
+  <circle cx="950" cy="318" r="300" fill="url(#ember)"/>
+
+  <g font-family="Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif" text-anchor="middle">
+    <text x="330" y="58" font-size="26" font-weight="700" fill="#e0a898">Without</text>
+    <text x="950" y="58" font-size="26" font-weight="700" fill="#ff7a55">With Red Filter</text>
+  </g>
+
+  <!-- phone 1: the page as it is -->
+  <rect x="180" y="82" width="300" height="480" rx="34" fill="#050505" stroke="#3a2a26" stroke-width="3"/>
+  <rect x="194" y="96" width="272" height="452" rx="22" fill="#f0dec7"/>
+  <use href="#lines" x="214" y="124" fill="#644d32"/>
+
+  <!-- arrow -->
+  <g fill="none" stroke="#ff3b14" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M560 322 H716"/>
+    <path d="M690 296 L718 322 L690 348"/>
+  </g>
+
+  <!-- phone 2: the same page under the filter -->
+  <rect x="800" y="82" width="300" height="480" rx="34" fill="#050505" stroke="#5a1408" stroke-width="3"/>
+  <rect x="814" y="96" width="272" height="452" rx="22" fill="#8f5544"/>
+  <use href="#lines" x="834" y="124" fill="#5f2411"/>
+
+  <g font-family="Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif" text-anchor="middle" font-size="19" fill="#d3a497">
+    <text x="640" y="392">same page,</text>
+    <text x="640" y="418">default setting</text>
+  </g>
+</svg>
