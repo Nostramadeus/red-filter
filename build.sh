@@ -3,7 +3,7 @@
 # Usage: bash build.sh [install]
 #   "install" also sends the app to a phone over USB and does the one-time setup (see README).
 # Needs: a JDK (17 works) and the Android SDK with build-tools and one platform. Override the defaults with
-#   ANDROID_SDK_ROOT, BUILD_TOOLS (version folder name), PLATFORM (e.g. android-36), JAVA_HOME, KEYSTORE,
+#   ANDROID_SDK_ROOT, BUILD_TOOLS (version folder name), PLATFORM (e.g. android-36), JAVA_HOME, KEYSTORE, KS_PASS,
 #   in the environment or in a file local.env next to this script.
 set -euo pipefail
 P="$(cd "$(dirname "$0")" && pwd)"
@@ -26,7 +26,7 @@ cp "$B/dex/classes.dex" "$B/classes.dex"
 (cd "$B" && "$BT/aapt" add base.apk classes.dex >/dev/null)
 "$BT/zipalign" -f 4 "$B/base.apk" "$B/aligned.apk"
 SIGN="$BT/apksigner"; [ -f "$BT/apksigner.bat" ] && SIGN="$BT/apksigner.bat"
-"$SIGN" sign --ks "$KS" --ks-pass pass:android --key-pass pass:android --out "$P/RedFilter.apk" "$B/aligned.apk"
+"$SIGN" sign --ks "$KS" --ks-pass "pass:${KS_PASS:-android}" --key-pass "pass:${KS_PASS:-android}" --out "$P/RedFilter.apk" "$B/aligned.apk"
 echo "built $P/RedFilter.apk"
 
 if [ "${1:-}" = install ]; then
