@@ -95,15 +95,32 @@ at any darkness. Red Filter uses the service for that one layer. It asks for no 
 
 ## If the phone switches the filter off
 
-Some phones stop background apps and leave the service marked "on" but not running. Switch the service off and on
-in the accessibility settings. With the permission below, opening the app once reconnects it without that trip:
+Some phones (OPPO, OnePlus, Xiaomi, Huawei and others) close background apps in batches. Android then leaves the
+service marked "on" but not running, and does not start it again by itself. On the phone this app was written for,
+that happened about once a day. The filter stays off until the service is switched off and on again.
+
+**One tap, no setup.** When this happens the notification changes to "Red Filter stopped". Tap it: the accessibility
+page opens. Switch Red Filter off, then on. The app shows the same button ("Open accessibility settings") while the
+filter is not running. For an icon on the home screen: long-press the Red Filter icon and drag "Accessibility" out
+of the menu.
+
+**Permanent, set up once.** With the permission below, Red Filter does the off-and-on by itself: when the app, the
+tile or the notification is used, and on a check every 15 minutes.
 
 ```bash
 adb shell pm grant io.github.nostramadeus.redfilter android.permission.WRITE_SECURE_SETTINGS
 ```
 
-(Needs a computer with `adb`. Some phones refuse it until a developer option such as "Disable permission
-monitoring" is switched on.)
+- Needs a computer with `adb` and USB debugging switched on. Some phones refuse the line until a developer option
+  such as "Disable permission monitoring" is switched on.
+- No computer: on Android 11 and later, an app that runs `adb shell` commands on the phone itself through
+  "Wireless debugging" (for example LADB, or Shizuku with a terminal app) can run the same line.
+- Android has no way for an app to get this permission without `adb`, and no other way for an app to restart its
+  own accessibility service.
+
+**Fewer stops.** In the phone's settings for Red Filter, allow background activity and auto-launch, and set battery
+use to unrestricted. On phones with a lock in the recent-apps screen, lock Red Filter there. The names differ per
+brand; [dontkillmyapp.com](https://dontkillmyapp.com) lists them.
 
 ## Build it yourself
 

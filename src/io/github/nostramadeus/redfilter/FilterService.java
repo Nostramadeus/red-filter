@@ -113,9 +113,13 @@ public class FilterService extends AccessibilityService {
     }
 
     private void shutdown() {
-        if (instance == this) instance = null;
+        boolean wasMine = instance == this;
+        if (wasMine) instance = null;
         try { unregisterReceiver(screenOn); } catch (RuntimeException ignored) { }
         removeView();
+        if (wasMine) {
+            try { Note.show(this); } catch (RuntimeException ignored) { }   // the notification now says "stopped"
+        }
     }
 
     @Override public void onAccessibilityEvent(AccessibilityEvent event) { }

@@ -3,6 +3,7 @@ package io.github.nostramadeus.redfilter;
 import android.app.Activity;
 import android.app.StatusBarManager;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +27,12 @@ import android.widget.TextView;
  * Main = the full screen (app icon). Popup = the same controls as a small window (notification).
  */
 public class Main extends Activity {
+    /** Intent extra set by the "Red Filter stopped" notification: go straight to the accessibility switch. */
+    static final String FIX = "fix";
+
     private final Handler h = new Handler(Looper.getMainLooper());
-    private TextView status;
+    private TextView status, hint;
+    private Button fix;
     private Switch on;
     private SeekBar tint, green, dim;
     private TextView tintLabel, greenLabel, dimLabel;
@@ -55,6 +60,21 @@ public class Main extends Activity {
         status = text("", small ? 13 : 15);
         status.setPadding(0, small ? 0 : dp(6), 0, small ? dp(4) : dp(18));
         col.addView(status);
+
+        // Shown only while the service is not running: one tap to the system switch, and how to make it permanent.
+        fix = new Button(this);
+        fix.setText("Open accessibility settings");
+        fix.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { Heal.openSettings(Main.this); }
+        });
+        col.addView(fix);
+        hint = text("Some phones close background apps. The filter then stays off until its accessibility switch "
+                + "is switched off and on again.\n\nTo let Red Filter do that by itself, run this once from a computer "
+                + "(USB debugging on):\n\nadb shell pm grant " + getPackageName()
+                + " android.permission.WRITE_SECURE_SETTINGS", 13);
+        hint.setTextIsSelectable(true);
+        hint.setPadding(0, dp(8), 0, dp(18));
+        col.addView(hint);
 
         on = new Switch(this);
         on.setText("Filter on");
@@ -115,6 +135,26 @@ public class Main extends Activity {
         load();
         // Android 13+: the notification needs this permission; the system asks once
         if (!Note.allowed(this)) requestPermissions(new String[] { "android.permission.POST_NOTIFICATIONS" }, 1);
+        if (b == null) fixIfAsked(getIntent());
+    }
+
+    @Override protected void onNewIntent(Intent i) {
+        super.onNewIntent(i);
+        fixIfAsked(i);
+    }
+
+    /**
+     * Opened from the "Red Filter stopped" notification. With the USB permission, onResume reconnects the service.
+     * Without it, go on to the system switch after a short wait (a just-started process may still be connecting).
+     */
+    private void fixIfAsked(Intent i) {
+        if (i == null || !i.getBooleanExtra(FIX, false)) return;
+        i.removeExtra(FIX);
+        h.postDelayed(new Runnable() {
+            @Override public void run() {
+                if (FilterService.instance == null && !Heal.canWrite(Main.this)) Heal.openSettings(Main.this);
+            }
+        }, 600);
     }
 
     @Override public void onRequestPermissionsResult(int code, String[] permissions, int[] results) {
@@ -158,13 +198,18 @@ public class Main extends Activity {
     }
 
     private void showStatus() {
-        if (FilterService.instance != null) {
+        boolean running = FilterService.instance != null;
+        boolean canWrite = Heal.canWrite(this);
+        if (running) {
             status.setText(Prefs.on(this) ? "Running." : "Service running, filter switched off.");
-        } else if (!Heal.canWrite(this)) {
-            status.setText("Not running. Switch it on: Settings > Accessibility > Downloaded apps > Red Filter.");
+        } else if (!canWrite) {
+            status.setText("Not running. Open the accessibility settings and switch Red Filter on. "
+                    + "If it is already on there: switch it off, then on.");
         } else {
             status.setText("Not running. Restarting it now...");
         }
+        fix.setVisibility(running ? View.GONE : View.VISIBLE);
+        hint.setVisibility(!running && !canWrite && !popup() ? View.VISIBLE : View.GONE);
     }
 
     /** Repaint the overlay with the saved values; reconnect the service if it is gone. */

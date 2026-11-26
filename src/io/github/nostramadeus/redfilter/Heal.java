@@ -33,17 +33,38 @@ public class Heal extends BroadcastReceiver {
             Note.show(c);
             return;
         }
-        final PendingResult r = goAsync();
         schedule(c);
+        if (FilterService.instance != null) return;
+        final PendingResult r = goAsync();
         // A just-started process may still be getting its service connected: look after a short wait.
         H.postDelayed(new Runnable() {
             @Override public void run() {
                 check(c);
                 H.postDelayed(new Runnable() {
-                    @Override public void run() { r.finish(); }
+                    @Override public void run() {
+                        Note.show(c);   // still not connected: the notification now says "stopped"
+                        r.finish();
+                    }
                 }, 2500);
             }
         }, 2000);
+    }
+
+    /**
+     * Opens the system page that holds this app's accessibility switch.
+     * Falls back to the general accessibility page on a phone that has no page per app.
+     */
+    static void openSettings(Context c) {
+        try {
+            c.startActivity(new Intent("android.settings.ACCESSIBILITY_DETAILS_SETTINGS")
+                    .putExtra(Intent.EXTRA_COMPONENT_NAME, me(c))
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            return;
+        } catch (RuntimeException ignored) { }
+        try {
+            c.startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } catch (RuntimeException ignored) { }
     }
 
     static boolean canWrite(Context c) {

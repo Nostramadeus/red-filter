@@ -39,15 +39,23 @@ final class Note {
                 new Intent(c, Popup.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), flags);
         PendingIntent toggle = PendingIntent.getBroadcast(c, 3,
                 new Intent(c, Heal.class).setAction(Heal.TOGGLE), flags);
+        // The filter should be on but the phone has closed the service: say so, and make one tap lead to the fix.
+        boolean stopped = on && FilterService.instance == null;
+        PendingIntent fix = PendingIntent.getActivity(c, 4,
+                new Intent(c, Main.class).putExtra(Main.FIX, true)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP), flags);
         Notification n = new Notification.Builder(c, CHANNEL)
                 .setSmallIcon(c.getResources().getIdentifier("ic_tile", "drawable", c.getPackageName()))
-                .setContentTitle(on ? "Red Filter is on" : "Red Filter is off")
-                .setContentText("Darkness " + Prefs.dim(c) + "%, colour " + Prefs.tint(c) + "%. Tap to adjust.")
-                .setContentIntent(open)
-                .setOngoing(true)
+                .setContentTitle(stopped ? "Red Filter stopped" : on ? "Red Filter is on" : "Red Filter is off")
+                .setContentText(stopped ? "The phone closed it. Tap to switch it back on."
+                        : "Darkness " + Prefs.dim(c) + "%, colour " + Prefs.tint(c) + "%. Tap to adjust.")
+                .setContentIntent(stopped ? fix : open)
+                .setOngoing(!stopped)
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
-                .addAction(new Notification.Action.Builder(null, on ? "Turn off" : "Turn on", toggle).build())
+                .addAction(stopped
+                        ? new Notification.Action.Builder(null, "Switch back on", fix).build()
+                        : new Notification.Action.Builder(null, on ? "Turn off" : "Turn on", toggle).build())
                 .addAction(new Notification.Action.Builder(null, "Adjust", open).build())
                 .build();
         try {

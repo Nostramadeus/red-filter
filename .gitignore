@@ -3,6 +3,7 @@ build/
 *.idsig
 BACKLOG.*
 BACKLOG-ARCHIVE.md
+BACKLOG-DONE.md
 AI-HANDOFF.md
 PROGRESS-*.md
 desktop.ini
