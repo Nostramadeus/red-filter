@@ -112,7 +112,8 @@ adb shell pm grant io.github.nostramadeus.redfilter android.permission.WRITE_SEC
 ```
 
 - Needs a computer with `adb` and USB debugging switched on. Some phones refuse the line until a developer option
-  such as "Disable permission monitoring" is switched on.
+  such as "Disable permission monitoring" is switched on. On the one phone this was tried on (ColorOS 16), that
+  option could be switched off again right after the line had run, and the permission stayed.
 - No computer: on Android 11 and later, an app that runs `adb shell` commands on the phone itself through
   "Wireless debugging" (for example LADB, or Shizuku with a terminal app) can run the same line.
 - Android has no way for an app to get this permission without `adb`, and no other way for an app to restart its
